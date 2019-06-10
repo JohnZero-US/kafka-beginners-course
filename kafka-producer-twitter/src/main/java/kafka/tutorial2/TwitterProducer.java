@@ -96,7 +96,7 @@ public class TwitterProducer {
             }
             if (msg != null) {
                 logger.info(msg);
-                //
+                //推送消息到kafka broker
                 producer.send(new ProducerRecord<>("twitter_tweets", null, msg), new Callback() {
                     @Override
                     public void onCompletion(RecordMetadata metadata, Exception exception) {
