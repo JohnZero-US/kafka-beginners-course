@@ -1,4 +1,4 @@
-package com.johnzero.kafka.tutorial2;
+package kafka.tutorial2;
 
 import com.google.common.collect.Lists;
 import com.twitter.hbc.ClientBuilder;
@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +42,7 @@ public class TwitterProducer {
     //密码
     String secret = "X6P1BsSQ9grM4BzxxxxxxxxEuzTVCx5ipjD01p";
     //主题
-    List<String> terms = Lists.newArrayList("kafka");
+    List<String> terms = Lists.newArrayList("bit coin", "usa", "politics", "sport", "soccer");
 
     /*Consumer key： 	        VMuxvF16xxxxg1LsIYg
     Consumer secret： 	ZlJMxxxxxTWhcGaHGcAU2pxolLWCLeWaE
@@ -76,7 +75,7 @@ public class TwitterProducer {
         //创建kafka提供者
         KafkaProducer<String, String> producer = createKafkaProducer();
         //添加关闭操作
-        Runtime.getRuntime().addShutdownHook(new Thread(()->{
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("stopping application...");
             logger.info("shutting dow client from twitter...");
             hosebirdClient.stop();
@@ -143,15 +142,34 @@ public class TwitterProducer {
     public KafkaProducer<String, String> createKafkaProducer() {
         //Kafka基础属性
         Properties properties = new Properties();
-        //
+        //broker
         String bootstrapServers = "127.0.0.1:9092";
-        //
 
+        //
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        //
+        //键序列化
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        //
+        //值序列化
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        //创建安全的生产者对象的配置
+        //启用幂等
+        properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+        //确认
+        properties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
+        //重试
+        properties.setProperty(ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
+        //最大的预连接，保持此值为5
+        properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
+
+        //高吞吐的生产者对象的配置（多线程cpu的使用）
+        //压缩类型
+        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
+        //徘徊时间(单位：毫秒)
+        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
+        //批量提交大小（单位：字节），32KB
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32 * 1024));
+
         //创建Kafka 生产者对象
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
 

@@ -6,6 +6,7 @@
 
     <groupId>com.johnzero</groupId>
     <artifactId>kafka-beginners-course</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
     <build>
         <plugins>
@@ -19,6 +20,10 @@
             </plugin>
         </plugins>
     </build>
+    <modules>
+        <module>kafka-basics</module>
+        <module>kafka-producer-twitter</module>
+    </modules>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->

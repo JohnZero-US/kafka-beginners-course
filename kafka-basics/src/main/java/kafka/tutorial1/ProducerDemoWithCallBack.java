@@ -1,4 +1,4 @@
-package com.johnzero.kafka.tutorial1;
+package kafka.tutorial1;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 /**
  * 描述:
@@ -18,11 +17,11 @@ import java.util.concurrent.ExecutionException;
   DateTime: 2019/5/20 17:35
   Description: 
 */
-public class ProducerDemoKeys {
+public class ProducerDemoWithCallBack {
     //
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    public static void main(String[] args) {
         //
-        final Logger logger = LoggerFactory.getLogger(ProducerDemoKeys.class);
+        final Logger logger = LoggerFactory.getLogger(ProducerDemoWithCallBack.class);
 
         //Kafka基础属性
         Properties properties = new Properties();
@@ -39,12 +38,9 @@ public class ProducerDemoKeys {
 
         //循环十次
         for (int i = 0; i < 10; i++) {
-            String topic = "first_topic";
-            String value = "hello world " + i;
-            String key = "id_" + i;
-
             //创建生产者纪录对象
-            final ProducerRecord<String, String> record = new ProducerRecord<String, String>(topic, key, value);
+            final ProducerRecord<String, String> record = new ProducerRecord<String, String>("first_topic", "hello " +
+                    "world " + i);
             //发布消息（异步）
             producer.send(record, new Callback() {
                 public void onCompletion(RecordMetadata metadata, Exception exception) {//成功发送或者发生异常时调用
@@ -60,7 +56,7 @@ public class ProducerDemoKeys {
                         logger.error("Error while producing", exception);
                     }
                 }
-            }).get(); // 阻止 send方法进行同步，不能在产品中使用
+            });
         }
         //刷新并关闭
         producer.flush();

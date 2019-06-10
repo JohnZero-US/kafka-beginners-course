@@ -1,4 +1,4 @@
-package com.johnzero.kafka.tutorial1;
+package kafka.tutorial1;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,14 +22,14 @@ import java.util.Properties;
   DateTime: 2019/5/20 18:39
   Description: 
 */
-public class ConsumerDemoGroups {
+public class ConsumerDemo {
 
     public static void main(String[] args) {
         //
-        Logger logger = LoggerFactory.getLogger(ConsumerDemoGroups.class);
+        Logger logger = LoggerFactory.getLogger(ConsumerDemo.class);
 //
         String bootstrapServer = "127.0.0.1:9092";
-        String groupId = "my-fifth-application";
+        String groupId = "my-fourth-application";
         String topic = "first_topic";
         //
         Properties properties = new Properties();
