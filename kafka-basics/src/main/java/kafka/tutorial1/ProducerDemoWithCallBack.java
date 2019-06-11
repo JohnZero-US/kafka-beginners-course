@@ -38,7 +38,7 @@ public class ProducerDemoWithCallBack {
 
         //循环十次
         for (int i = 0; i < 10; i++) {
-            //创建生产者纪录对象
+            //创建生产者记录对象
             final ProducerRecord<String, String> record = new ProducerRecord<String, String>("first_topic", "hello " +
                     "world " + i);
             //发布消息（异步）

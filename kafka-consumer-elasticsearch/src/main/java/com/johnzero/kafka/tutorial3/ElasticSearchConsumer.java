@@ -68,6 +68,7 @@ public class ElasticSearchConsumer {
         return client;
     }
 
+    //创建Kafka消费者
     public static KafkaConsumer<String, String> createConsumer(String topic) {
         //
         String bootstrapServer = "127.0.0.1:9092";
@@ -98,7 +99,7 @@ public class ElasticSearchConsumer {
         return consumer;
     }
 
-    //
+    //启动方法
     public static void main(String[] args) throws IOException {
         //
         Logger logger = LoggerFactory.getLogger(ElasticSearchConsumer.class.getName());

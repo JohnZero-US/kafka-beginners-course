@@ -43,7 +43,7 @@ public class ProducerDemoKeys {
             String value = "hello world " + i;
             String key = "id_" + i;
 
-            //创建生产者纪录对象
+            //创建生产者记录对象
             final ProducerRecord<String, String> record = new ProducerRecord<String, String>(topic, key, value);
             //发布消息（异步）
             producer.send(record, new Callback() {
